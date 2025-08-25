@@ -57,12 +57,11 @@ const App = () => {
           setTimeout(() => setNotificationMessage(''), 5000)
         })
         .catch(error => {
+          if (error.status === 404) setPersons(persons.filter(p => p.id !== id))
+
           console.log(error)
-
-          setPersons(persons.filter(p => p.id !== id))
-
           setSuccess(false)
-          setNotificationMessage(`Information of ${newPerson.name} has already been removed from the server!`)
+          setNotificationMessage(error.response.data.error)
           setTimeout(() => setNotificationMessage(''), 5000)
         })
 
@@ -76,6 +75,12 @@ const App = () => {
 
         setSuccess(true)
         setNotificationMessage(`Information for ${newPerson.name} added to the phonebook successfully!`)
+        setTimeout(() => setNotificationMessage(''), 5000)
+      })
+      .catch(error => {
+        console.log(error)
+        setSuccess(false)
+        setNotificationMessage(error.response.data.error)
         setTimeout(() => setNotificationMessage(''), 5000)
       })
 
