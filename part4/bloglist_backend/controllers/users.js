@@ -9,7 +9,7 @@ router.get('/', async (req, res) => {
 })
 
 router.post('/', async (req, res) => {
-    if (!(req.body.name && req.body.username && req.body.password)) {
+    if (!(req.body.username && req.body.name && req.body.password)) {
         return res.status(400).json({ error: "Username, password and name are required to create a new user" })
     }
 

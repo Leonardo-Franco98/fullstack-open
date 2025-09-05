@@ -1,0 +1,16 @@
+.notif {
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 20px;
+    background-color: lightgray;
+}
+
+.success {
+    border: 4px solid green;
+    color: green
+}
+
+.error {
+    border: 4px solid red;
+    color: red;
+}

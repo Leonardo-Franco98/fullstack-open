@@ -8,9 +8,9 @@ router.get('/', async (request, response) => {
 
 router.get('/:id', async (request, response) => {
     let blog = await Blog.find({ _id: request.params.id }).populate('user')
-    
+
     if (blog.length === 0) response.status(404).json({ error: "Could not find this blog" })
-    else response.json(blog) 
+    else response.json(blog)
 })
 
 router.post('/', async (request, response) => {
@@ -44,7 +44,7 @@ router.put('/:id', async (request, response) => {
         return response.status(400).json({ error: "Blog title and url are required to create a new blog" })
     }
 
-    let blogToUpdate = await Blog.find({ _id: request.params.id }) 
+    let blogToUpdate = await Blog.find({ _id: request.params.id })
 
     if (blogToUpdate.length === 0) return response.status(404).json({ error: "Could not find this blog" })
 
@@ -63,12 +63,12 @@ router.delete('/:id', async (request, response) => {
     if (!request.user) return response.status(401).json({ error: 'Missing token' })
 
     const user = request.user
-        
-    let blogToDelete = await Blog.find({ _id: request.params.id }) 
 
-    if (blogToDelete.length === 0) return response.status(404).json({ error: "Could not find this blog" })
+    let blogToDelete = await Blog.findByIdAndDelete(request.params.id)
 
-    if (user._id.toString() !== blogToDelete[0].user.toString()) {
+    if (!blogToDelete) return response.status(404).json({ error: "Could not find this blog" })
+
+    if (user._id.toString() !== blogToDelete.user.toString()) {
         response.status(403).end()
     }
 
